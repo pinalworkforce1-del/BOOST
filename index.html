@@ -414,6 +414,7 @@ function buildPossibilitiesReport(){
  ${[...suggested,...savedReverse].filter(o=>pathwayFor(o)).length?[...suggested,...savedReverse].filter((o,i,a)=>pathwayFor(o)&&a.findIndex(x=>x.title===o.title)===i).map(o=>`<div class="reportCard" style="margin-bottom:12px"><h3>${o.title}</h3>${pathwayHtml(o,true)}</div>`).join(''):`<div class="reportNote">No curated Career Pathway was triggered by the careers in this session. Higher-preparation careers should still be treated as possible destinations rather than assumed starting points.</div>`}
  <div class="reportNote"><b>What this output means</b><br>This is a discovery record — not a career recommendation. Module 1 helps identify possibilities worth investigating. Later BOOST activities will examine employment reality, existing experience, career mobility, and preparation gaps before a pathway decision is made.</div>`;
  const sec=document.getElementById('possibilitiesReport');sec.style.display='block';sec.scrollIntoView({behavior:'smooth',block:'start'});
+ showBoostCompletionReturn();
 }
 function toggleAskBoost(){
  const p=document.getElementById('askPanel');p.style.display=p.style.display==='block'?'none':'block';refreshAskQuestions();
@@ -446,6 +447,34 @@ function openAskForCareer(soc){
  const o=DATA.find(x=>x.soc===soc);
  document.getElementById('askQuestions').innerHTML=`<button class="askQ" onclick='setAskAnswer("why",${JSON.stringify(soc)})'>Why did ${o?o.title:'this career'} appear?</button>${o&&careerStage(o)==='destination'?`<button class="askQ" onclick='setAskAnswer("destination",${JSON.stringify(soc)})'>Why might this be a destination instead of a starting point?</button>`:''}`+document.getElementById('askQuestions').innerHTML;
  setAskAnswer('why',soc);
+}
+
+
+function showBoostCompletionReturn(){
+ const params=new URLSearchParams(location.search);
+ const returnUrl=params.get('boost_return');
+ const moduleId=params.get('boost_module');
+ const nonce=params.get('boost_nonce');
+ if(!returnUrl||moduleId!=='module1'||!nonce)return;
+ let safeReturn;
+ try{
+   safeReturn=new URL(returnUrl,location.href);
+   if(safeReturn.origin!==location.origin)return;
+ }catch(_){return}
+ let box=document.getElementById('boostCompletionReturn');
+ if(!box){
+   box=document.createElement('div');
+   box.id='boostCompletionReturn';
+   box.className='reportNote';
+   box.style.cssText='margin-top:20px;border:3px solid #16835b;background:#effff7;text-align:center;padding:20px;border-radius:16px';
+   document.getElementById('possibilitiesBody').appendChild(box);
+ }
+ box.innerHTML='<h3 style="margin:0 0 8px">Module 1 Complete</h3><p style="margin:0 0 14px">Your Career Possibilities report is ready. Return to BOOST Pathways to save this completion and unlock your next step.</p><button type="button" id="boostReturnComplete" style="padding:13px 20px;border:0;border-radius:10px;background:#0d6248;color:white;font-weight:900;cursor:pointer">Save Completion & Return to BOOST</button>';
+ document.getElementById('boostReturnComplete').onclick=function(){
+   safeReturn.searchParams.set('boost_complete','module1');
+   safeReturn.searchParams.set('boost_nonce',nonce);
+   location.assign(safeReturn.toString());
+ };
 }
 
 setup();refreshAskQuestions();</script></body></html>
