@@ -5,6 +5,14 @@ const JOURNEY_KEY='pinal_boost_journey_v1';
 const input=document.getElementById('participantFullName');
 const status=document.getElementById('participantNameStatus');
 const panel=document.getElementById('participantName');
+function hideDiscoverCarryForward(){
+  const remove=()=>document.getElementById('pinalConnectedCarry')?.remove();
+  remove();
+  const obs=new MutationObserver(remove);
+  obs.observe(document.documentElement,{childList:true,subtree:true});
+  setTimeout(()=>obs.disconnect(),5000);
+}
+hideDiscoverCarryForward();
 if(!input)return;
 function readKey(key){try{return JSON.parse(localStorage.getItem(key)||'{}')||{}}catch(_){return{}}}
 function clean(v){return String(v||'').trim().replace(/\s+/g,' ')}
