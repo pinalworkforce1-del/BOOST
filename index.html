@@ -13,7 +13,7 @@
   <div>
    <div class="eyebrow">BOOST • Module 1 — Discover</div>
    <h1>Discover Career Possibilities</h1>
-   <p>Your interests help BOOST surface careers worth exploring. Regional labor-market evidence helps you see where opportunity exists. Neither one limits what you are allowed to explore.</p>
+   <p>Start with what feels natural to you, add your O*NET interests, then explore how those signals connect with Pinal-area labor-market evidence and H3 career pathways. None of these signals limits what you are allowed to explore.</p>
    <button class="audioBtn" id="audioBtn" type="button">▶ Hear the Module 1 introduction</button>
    <audio id="introAudio" preload="none" src="assets/audio/module1_00_discover_intro.mp3"></audio>
   </div>
@@ -42,20 +42,20 @@
    <div class="score"><label>E</label><b>Enterprising</b><input id="E" type="number" min="0" max="40" step="1" inputmode="numeric" aria-label="Enterprising score"></div>
    <div class="score"><label>C</label><b>Conventional</b><input id="C" type="number" min="0" max="40" step="1" inputmode="numeric" aria-label="Conventional score"></div>
   </div>
-  <div class="actionRow"><button class="primary" id="surfaceBtn" type="button">Show Careers That Fit My Interests</button><span class="note">Regional opportunity informs what BOOST proactively surfaces. It never blocks exploration.</span></div>
+  <div class="actionRow"><button class="primary" id="surfaceBtn" type="button">Show Careers That Connect to Me</button><span class="note">Regional opportunity and H3 pathway evidence remain visible career-development evidence. They do not override your interests or work drivers.</span></div>
   <div class="interestSummary" id="interestSummary"></div>
  </section>
 
  <section class="panel" id="recommendations">
-  <div class="resultsHead"><div><div class="stepTag">Step 2 • Explore possibilities</div><h2>Careers Worth Exploring</h2><p class="sub">BOOST surfaces a mix of realistic starting points and longer-term destinations from the three-county labor market. Results are ranked by <b>interest alignment</b>; labor-market strength is shown as evidence, not used to override your interests.</p></div>
+  <div class="resultsHead"><div><div class="stepTag">Step 2 • Explore possibilities</div><h2>Careers Worth Exploring</h2><p class="sub">BOOST surfaces a mix of realistic starting points and longer-term destinations from the three-county labor market. Use the alignment lenses to understand <b>why</b> a career connected, then use Pinal LMI and H3 pathway evidence to test whether the opportunity makes sense.</p></div>
    <div class="filters" id="filters"><button class="filterBtn active" data-filter="all">All</button><button class="filterBtn" data-filter="start">Starting Points</button><button class="filterBtn" data-filter="destination">Destinations</button></div>
   </div>
-  <div id="cards" class="cards"><div class="empty">Enter your O*NET scores above to surface careers.</div></div>
+  <div id="cards" class="cards"><div class="empty">Complete the Discover reflection and enter your O*NET scores to surface careers.</div></div>
   <div class="showMore"><button class="secondary" id="moreBtn" type="button" style="display:none">Show More Careers</button></div>
  </section>
 
  <section class="panel">
-  <div class="stepTag">Step 3 • Protect your curiosity</div>
+  <div class="stepTag">Step 4 • Protect your curiosity</div>
   <h2>Explore Any Career</h2>
   <p class="sub">Already have a career in mind? Search the full regional occupation universe. A career does not need to pass BOOST's recommendation gate for you to explore or save it. The filters above also narrow this search when you want them to.</p>
   <div class="searchWrap"><input class="searchInput" id="searchInput" type="search" placeholder="Try CNA, CDL, help desk, electrician, medical assistant, or an occupation title..." autocomplete="off"><div class="searchResults" id="searchResults"></div></div>
@@ -64,7 +64,7 @@
 
  <section class="selectionBox" id="selectionBox">
   <h2>My Career Exploration</h2>
-  <p class="sub">Save up to three careers to carry into Validate. BOOST will keep the same SOC record moving forward so your research builds instead of restarting.</p>
+  <p class="sub">Save up to three careers to carry into Validate. BOOST will keep the same SOC record, alignment evidence, Pinal LMI, and H3 pathway context moving forward so your research builds instead of restarting.</p>
   <div class="chosen" id="chosen"><div class="chosenItem"><b>No careers saved yet.</b><br><small>Choose up to three from the cards or search.</small></div></div>
   <div class="selectionActions"><button class="primary" id="saveBtn" type="button">Save Module 1</button><button class="secondary" id="printBtn" type="button">Print / Save My Career Exploration</button></div>
   <div class="status" id="saveStatus">Your selections are saved in this browser as you work.</div>
@@ -86,4 +86,5 @@
 <script src="assets/module1-search-hotfix.js"></script>
 <script src="assets/module1-participant-name-v1.js"></script>
 <script src="assets/module1-pinal-cloud-bridge-v1.js?v=20260911a"></script>
+<script src="assets/module1-mindmap-alignment-v1.js?v=20260926a"></script>
 </body></html>
