@@ -13,7 +13,7 @@
   <div>
    <div class="eyebrow">BOOST • Module 1 — Discover</div>
    <h1>Discover Career Possibilities</h1>
-   <p>Start with what feels natural to you, add your O*NET interests, then explore how those signals connect with Pinal-area labor-market evidence and H3 career pathways. None of these signals limits what you are allowed to explore.</p>
+   <p>Start with what feels natural to you, add your O*NET® interests, then explore how those signals connect with Pinal-area labor-market evidence and H3 career pathways. None of these signals limits what you are allowed to explore.</p>
    <button class="audioBtn" id="audioBtn" type="button">▶ Hear the Module 1 introduction</button>
    <audio id="introAudio" preload="none" src="assets/audio/module1_00_discover_intro.mp3"></audio>
   </div>
@@ -31,9 +31,9 @@
  </section>
  <section class="panel" id="onet">
   <div class="stepTag">Step 1 • Start with your interests</div>
-  <h2>Enter your O*NET Interest Profiler scores</h2>
+  <h2>Enter your O*NET® Interest Profiler scores</h2>
   <p class="sub">If you have not completed the profiler yet, take it first. Then enter your six scores below. BOOST uses these scores only as a preference signal — not as a measure of qualification.</p>
-  <div class="onetBox"><div><b>O*NET Interest Profiler</b><br><span class="note">A free assessment that measures Realistic, Investigative, Artistic, Social, Enterprising, and Conventional interests.</span></div><a href="https://www.mynextmove.org/explore/ip" target="_blank" rel="noopener">Take the O*NET Profiler ↗</a></div>
+  <div class="onetBox"><div><b>O*NET® Interest Profiler</b><br><span class="note">A free assessment that measures Realistic, Investigative, Artistic, Social, Enterprising, and Conventional interests.</span></div><a href="https://www.mynextmove.org/explore/ip" target="_blank" rel="noopener">Take the O*NET® Interest Profiler ↗</a></div>
   <div class="scoreGrid">
    <div class="score"><label>R</label><b>Realistic</b><input id="R" type="number" min="0" max="40" step="1" inputmode="numeric" aria-label="Realistic score"></div>
    <div class="score"><label>I</label><b>Investigative</b><input id="I" type="number" min="0" max="40" step="1" inputmode="numeric" aria-label="Investigative score"></div>
@@ -50,7 +50,7 @@
   <div class="resultsHead"><div><div class="stepTag">Step 2 • Explore possibilities</div><h2>Careers Worth Exploring</h2><p class="sub">BOOST surfaces a mix of realistic starting points and longer-term destinations from the three-county labor market. Use the alignment lenses to understand <b>why</b> a career connected, then use Pinal LMI and H3 pathway evidence to test whether the opportunity makes sense.</p></div>
    <div class="filters" id="filters"><button class="filterBtn active" data-filter="all">All</button><button class="filterBtn" data-filter="start">Starting Points</button><button class="filterBtn" data-filter="destination">Destinations</button></div>
   </div>
-  <div id="cards" class="cards"><div class="empty">Complete the Discover reflection and enter your O*NET scores to surface careers.</div></div>
+  <div id="cards" class="cards"><div class="empty">Complete the Discover reflection and enter your O*NET® scores to surface careers.</div></div>
   <div class="showMore"><button class="secondary" id="moreBtn" type="button" style="display:none">Show More Careers</button></div>
  </section>
 
@@ -70,6 +70,10 @@
   <div class="status" id="saveStatus">Your selections are saved in this browser as you work.</div>
   <div class="completion" id="completion"></div>
  </section>
+ <aside aria-label="O*NET data and licensing" style="margin:18px 0 28px;padding:13px 15px;border:1px solid #cbd8df;border-radius:12px;background:#f7fafb;color:#536b78;font-size:.78rem;line-height:1.5">
+  <b style="color:#294a59">Data &amp; Sources — O*NET®</b><br>
+  BOOST links participants to the official <a href="https://www.mynextmove.org/explore/ip" target="_blank" rel="noopener">O*NET® Interest Profiler</a> and uses participant-entered results as a career-exploration signal. This experience also includes information adapted from the <a href="https://www.onetcenter.org/database.html" target="_blank" rel="noopener">O*NET® 31.0 Database</a> by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA), used under the <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0 license</a>. BOOST has modified some O*NET® database information by crosswalking and combining it with participant responses and regional labor-market evidence. USDOL/ETA has not approved, endorsed, or tested these modifications. O*NET® is a trademark of USDOL/ETA. <a href="https://www.onetcenter.org/license_agreements.html" target="_blank" rel="noopener">O*NET® license information</a>.
+ </aside>
 </div></main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
