@@ -99,12 +99,21 @@ function evidenceObject(o,origin){
  return {
   soc:o.soc,title:o.title,origin,
   interestAlignment:alignment(o)==null?null:Math.round(alignment(o)*10)/10,
+  ria:o.ria?{R:Number(o.ria.R),I:Number(o.ria.I),A:Number(o.ria.A),S:Number(o.ria.S),E:Number(o.ria.E),C:Number(o.ria.C)}:null,
   interests:o.interests||null,sector:o.sector,
   regional:{jobs26:o.jobs,jobs35:o.jobs35,annualOpenings:o.openings,growthPct:o.growth,p25Hourly:o.p25,medianHourly:o.median,p75Hourly:o.p75,tier:o.tier},
   preparation:{education:o.education,experience:o.experience,ojt:o.ojt},
   pathway:o.pathway?{name:o.pathway.name,position:o.pathway.position,destinationStory:o.pathway.destinations}:null,
   stage:stageFor(o)
  };
+}
+function refreshSelectedEvidence(){
+ if(!scores||!OCCS.length||!selected.size)return;
+ for(const [soc,old] of [...selected.entries()]){
+  const o=OCCS.find(x=>x.soc===soc);if(!o)continue;
+  const fresh=evidenceObject(o,old?.origin||'Saved career');
+  selected.set(soc,{...old,...fresh});
+ }
 }
 function cardHtml(o,origin='BOOST Surfaced',search=false){
  const a=alignment(o),stage=stageFor(o),saved=selected.has(o.soc),path=o.pathway;
@@ -167,6 +176,7 @@ function surface(){
  scores=currentScores();
  if(!scores){alert('Please enter all six O*NET scores from 0 to 40.');return}
  localStorage.setItem(SCORE_KEY,JSON.stringify(scores));
+ refreshSelectedEvidence();
  $('interestSummary').innerHTML=interestText();$('interestSummary').style.display='block';
  buildRank();visible=8;filter='all';
  document.querySelectorAll('.filterBtn').forEach(b=>b.classList.toggle('active',b.dataset.filter==='all'));
@@ -209,6 +219,7 @@ function saveModule(){
  scores=currentScores()||scores;
  if(!scores){alert('Enter your O*NET scores before completing Module 1.');$('onet').scrollIntoView({behavior:'smooth'});return}
  if(!selected.size){alert('Choose at least one career to carry forward.');return}
+ refreshSelectedEvidence();
  let state={version:1};try{state=JSON.parse(localStorage.getItem(KEY)||'null')||state}catch(_){}
  state.updatedAt=new Date().toISOString();
  state.module1={
@@ -231,7 +242,7 @@ async function init(){
   const stream=new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
   const rows=JSON.parse(await new Response(stream).text());
   OCCS=rows.map(r=>({soc:r[0],title:r[1],sector:r[2],jobs:r[3],openings:r[4],growth:r[5],p25:r[6],median:r[7],gate:!!r[8],tier:r[9],education:r[10],experience:r[11],ojt:r[12],pathway:r[13]?{name:r[13],position:r[14],destinations:r[15]}:null,ria:r[16]==null?null:{R:r[16],I:r[17],A:r[18],S:r[19],E:r[20],C:r[21]}}));
-  const existing=currentScores();if(existing){scores=existing;$('interestSummary').innerHTML=interestText();$('interestSummary').style.display='block';buildRank();renderCards()}
+  const existing=currentScores();if(existing){scores=existing;refreshSelectedEvidence();persistDraft();$('interestSummary').innerHTML=interestText();$('interestSummary').style.display='block';buildRank();renderCards()}
  }catch(e){console.error(e);$('cards').innerHTML='<div class="empty"><b>Career data could not load.</b><br>Please refresh the page. If the issue continues, return to BOOST and reopen Module 1.</div>'}
 }
 $('surfaceBtn').onclick=surface;
