@@ -85,11 +85,30 @@
 <script src="assets/data/career-data-v1-05.js"></script>
 <script src="assets/data/career-data-v1-06.js"></script>
 <script src="assets/module1-open-prod.js"></script>
-<script src="assets/module1-onet-embedded-v1.js?v=20261005b"></script>
+<script src="assets/module1-onet-embedded-v1.js?v=20261005c"></script>
 <script src="assets/module1-filters-prod.js"></script>
 <script src="assets/module1-search-hotfix.js"></script>
 <script src="assets/module1-participant-name-v1.js"></script>
 <script src="assets/module1-pinal-cloud-bridge-v1.js?v=20260926c"></script>
 <script src="assets/module1-mindmap-alignment-v1.js?v=20260926a"></script>
 <script src="assets/careeronestop-career-action-v1.js?v=20260926a"></script>
+<script>
+(function restoreBoostMapReturnRule(){
+  const PORTAL='https://pinalworkforce1-del.github.io/BOOST_Pathway-Portal/';
+  showCompletion=function(){
+    const params=new URLSearchParams(location.search),returnUrl=params.get('boost_return'),moduleId=params.get('boost_module'),nonce=params.get('boost_nonce');
+    const box=document.getElementById('completion');if(!box)return;box.style.display='block';
+    let safeReturn=null;
+    if(returnUrl&&moduleId==='module1'&&nonce){
+      try{safeReturn=new URL(returnUrl,location.href);if(safeReturn.origin!==location.origin)safeReturn=null}catch(_){safeReturn=null}
+    }
+    if(safeReturn){
+      box.innerHTML='<h3>Module 1 Complete</h3><p>Your career exploration has been saved. Return to BOOST to record completion and continue your pathway.</p><button class="primary" id="boostReturnComplete" type="button">Save Completion & Return to BOOST</button>';
+      document.getElementById('boostReturnComplete').onclick=()=>{safeReturn.searchParams.set('boost_complete','module1');safeReturn.searchParams.set('boost_nonce',nonce);location.assign(safeReturn.toString())};
+    }else{
+      box.innerHTML='<h3>Module 1 Complete</h3><p>Your career exploration is saved. BOOST returns you to the pathway map after each module so you can see your progress and next available step.</p><a class="primary" href="'+PORTAL+'" style="display:inline-block;text-decoration:none">Return to BOOST Map →</a>';
+    }
+  };
+})();
+</script>
 </body></html>
