@@ -1,0 +1,26 @@
+name: BOOST Discover guest safety check
+on:
+  push:
+    branches:
+      - feature/guest-showcase-2026
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check independent guest scripts and completion
+        run: |
+          node --input-type=module <<'EOF'
+          import fs from 'node:fs';
+          const html=fs.readFileSync('guest.html','utf8');
+          const required=['guestStore','guest-assets/module1-open-prod.js','Return to Guest Map'];
+          for (const item of required) if(!html.includes(item)) throw Error('Missing '+item);
+          if(html.includes('boost-cloud.js') || html.includes('module1-pinal-cloud-bridge-v1.js')) throw Error('Production cloud code included');
+          for(const name of ['module1-open-prod','module1-onet-embedded-v1','module1-participant-name-v1','module1-mindmap-alignment-v1']){
+            const js=fs.readFileSync('guest-assets/'+name+'.js','utf8');
+            if(/\blocalStorage\b/.test(js)) throw Error('Production storage in '+name);
+          }
+          EOF
