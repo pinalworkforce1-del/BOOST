@@ -111,4 +111,24 @@
   };
 })();
 </script>
+
+<script id="boost-modern-rosie-ui">
+/* Only guide, narration, and chat portraits; feature images are excluded. */
+(function(){
+ const src="https://pinalworkforce1-del.github.io/BOOST_Pathway-Portal/assets/images/rosie-chat-avatar.webp";
+ const selectors=['.audioBox','.audio-panel','.audioPanel','.narration','.narration-panel','.rosie','.rosieAvatar','.rosie-avatar','.rosieChat','.rosie-chat','.ask-rosie','.askRosie','.chat-widget','.chatWidget','[data-rosie]','[class*="rosie"]','[id*="rosie"]','[class*="chat-avatar"]','[class*="narrat"]'];
+ const excluded='header img,.openingMedia img,.heroVisual img,.hero img,#module3HeroImage';
+ function sync(){
+  document.querySelectorAll(selectors.join(',')).forEach(panel=>{
+   panel.querySelectorAll('img').forEach(img=>{
+    if(img.matches(excluded)||img.closest('.openingMedia,.heroVisual'))return;
+    if(img.src!==src)img.src=src;
+   });
+  });
+ }
+ let busy=false;
+ function queue(){if(busy)return;busy=true;requestAnimationFrame(()=>{busy=false;sync()})}
+ document.addEventListener('DOMContentLoaded',()=>{sync();new MutationObserver(queue).observe(document.body,{subtree:true,childList:true})});
+})();
+</script>
 </body></html>
