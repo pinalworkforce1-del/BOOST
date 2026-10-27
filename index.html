@@ -113,22 +113,31 @@
 </script>
 
 <script id="boost-modern-rosie-ui">
-/* Only guide, narration, and chat portraits; feature images are excluded. */
 (function(){
- const src="https://pinalworkforce1-del.github.io/BOOST_Pathway-Portal/assets/images/rosie-chat-avatar.webp";
- const selectors=['.audioBox','.audio-panel','.audioPanel','.narration','.narration-panel','.rosie','.rosieAvatar','.rosie-avatar','.rosieChat','.rosie-chat','.ask-rosie','.askRosie','.chat-widget','.chatWidget','[data-rosie]','[class*="rosie"]','[id*="rosie"]','[class*="chat-avatar"]','[class*="narrat"]'];
- const excluded='header img,.openingMedia img,.heroVisual img,.hero img,#module3HeroImage';
- function sync(){
-  document.querySelectorAll(selectors.join(',')).forEach(panel=>{
-   panel.querySelectorAll('img').forEach(img=>{
-    if(img.matches(excluded)||img.closest('.openingMedia,.heroVisual'))return;
-    if(img.src!==src)img.src=src;
-   });
+ const avatar='https://pinalworkforce1-del.github.io/BOOST_Pathway-Portal/assets/images/rosie-chat-avatar.webp';
+ const excluded='header img,.openingMedia img,.heroVisual img,.hero img,#module3HeroImage,.opening img';
+ function isHero(img){return img.matches(excluded)||!!img.closest('.openingMedia,.heroVisual,.hero,.feature-art,.heroImage')}
+ function isGuide(img){
+  if(isHero(img))return false;
+  const context=(img.outerHTML+' '+(img.parentElement?.outerHTML||'').slice(0,1000)).toLowerCase();
+  const oldImage=/(riveter|rosie|guide|narrat|audio|assistant|avatar|chat)/.test(context);
+  const small=img.getBoundingClientRect().width>0&&img.getBoundingClientRect().width<=170&&img.getBoundingClientRect().height<=190;
+  return oldImage||small;
+ }
+ function apply(){
+  document.querySelectorAll('img').forEach(img=>{
+   if(isGuide(img)&&img.src!==avatar){img.src=avatar;img.removeAttribute('srcset')}
+  });
+  document.querySelectorAll('[class*="rosie"],[class*="avatar"],[class*="narrat"],[class*="chat"],[class*="audio"],[id*="rosie"],[id*="chat"]').forEach(el=>{
+   if(el.matches('img')||el.closest('.heroVisual,.openingMedia,.hero'))return;
+   const bg=getComputedStyle(el).backgroundImage;
+   if(bg&&bg!=='none'&&/(riveter|rosie|avatar)/i.test(bg))el.style.backgroundImage='url("'+avatar+'")';
   });
  }
- let busy=false;
- function queue(){if(busy)return;busy=true;requestAnimationFrame(()=>{busy=false;sync()})}
- document.addEventListener('DOMContentLoaded',()=>{sync();new MutationObserver(queue).observe(document.body,{subtree:true,childList:true})});
+ let queued=false;
+ function schedule(){if(queued)return;queued=true;requestAnimationFrame(()=>{queued=false;apply()})}
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+ function start(){apply();new MutationObserver(schedule).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['src','srcset','class','style']})}
 })();
 </script>
 </body></html>
