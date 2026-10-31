@@ -28,8 +28,9 @@ window.addEventListener('message',e=>{
    const next={module1:{scores:mod.scores,selected:mod.selected,topInterests:mod.topInterests||[],mindmap:mod.mindmap||null,alignmentProfile:mod.alignmentProfile||null,completedAt:mod.completedAt||null},
      participant:{name:String(incoming.participant?.name||''),fullName:String(incoming.participant?.name||'')}};
    const old=read(STATE);
-   const previous=JSON.stringify({module1:old?.module1||null,participant:old?.participant||null});
-   const changed=previous!==JSON.stringify(next);
+   const was=JSON.stringify([old?.module1?.scores||{},old?.module1?.selected||[],old?.module1?.completedAt||null,old?.participant?.name||'']);
+   const now=JSON.stringify([mod.scores,mod.selected,mod.completedAt||null,next.participant.name]);
+   const changed=was!==now;
    // Only an authenticated exact-origin parent may hydrate this embedded view.
    localStorage.setItem(STATE,JSON.stringify(next));
    localStorage.setItem(SCORES,JSON.stringify(mod.scores));
@@ -37,8 +38,9 @@ window.addEventListener('message',e=>{
    const newJourney={region:'Pinal County',participant:{name:next.participant.name},modules:{module1:{interestScores:mod.scores,careers:mod.selected,
      topInterests:mod.topInterests||[],mindmap:mod.mindmap||null,alignmentProfile:mod.alignmentProfile||null,completedAt:mod.completedAt||null}},
      progress:{module1:mod.completedAt?'complete':'started'}};
-   if(JSON.stringify(oldJourney.modules?.module1)!==JSON.stringify(newJourney.modules.module1))localStorage.setItem(JOURNEY,JSON.stringify(newJourney));
-   if(changed){location.reload()}
+   const merged={...oldJourney,participant:{...(oldJourney.participant||{}),...newJourney.participant},modules:{...(oldJourney.modules||{}),module1:{...(oldJourney.modules?.module1||{}),...newJourney.modules.module1}},progress:{...(oldJourney.progress||{}),module1:newJourney.progress.module1}};
+   localStorage.setItem(JOURNEY,JSON.stringify(merged));
+   if(changed&&sessionStorage.getItem('boost_m1_hydrated')!==now){sessionStorage.setItem('boost_m1_hydrated',now);location.reload()}
  }catch(err){console.warn('BOOST embedded Module 1 recovery unavailable',err)}
 });
 document.addEventListener('DOMContentLoaded',sendRequest,{once:true});
