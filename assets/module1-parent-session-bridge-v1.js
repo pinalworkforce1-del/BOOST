@@ -21,6 +21,11 @@ window.addEventListener('message',e=>{
    e.source.postMessage({type:'pinal-boost-module1-current',requestId:String(e.data.requestId||''),state:outgoing},e.origin);
    return;
  }
+ if(e.data.type==='pinal-boost-account-name'){
+   const name=String(e.data.name||'').trim();
+   if(name)window.dispatchEvent(new CustomEvent('pinal-boost-account-name',{detail:{name}}));
+   return;
+ }
  if(e.data.type!=='pinal-boost-module1-restore')return;
  const incoming=e.data.state,mod=incoming?.module1;
  if(!mod||typeof mod!=='object'||!Array.isArray(mod.selected)||!mod.scores||typeof mod.scores!=='object')return;
