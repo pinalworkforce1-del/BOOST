@@ -77,7 +77,16 @@
 </div></main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>window.BOOST_CONFIG={cloudEnabled:true,supabaseUrl:'https://dxcajwarqojvmbteroco.supabase.co',supabaseAnonKey:'sb_publishable_ehUKOOksq5SlkTNb-wQ8ZA_Zh8XlWDF',region:'Pinal County'};</script>
-<script src="https://pinalworkforce1-del.github.io/BOOST_Pathway-Portal/assets/js/boost-cloud.js?v=20260911m1"></script>
+<script>
+/* Embedded Module 1 receives verified state through its parent BOOST shell.
+   Never start an independent sign-in flow inside an iframe. */
+if(window.self===window.top){
+  const cloud=document.createElement('script');
+  cloud.src='https://pinalworkforce1-del.github.io/BOOST_Pathway-Portal/assets/js/boost-cloud.js?v=20261031';
+  document.head.appendChild(cloud);
+}
+</script>
+<script src="assets/module1-parent-session-bridge-v1.js?v=20261031"></script>
 <script src="assets/data/career-data-v1-01.js"></script>
 <script src="assets/data/career-data-v1-02.js"></script>
 <script src="assets/data/career-data-v1-03.js"></script>
