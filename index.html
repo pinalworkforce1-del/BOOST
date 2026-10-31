@@ -105,6 +105,15 @@ if(window.self===window.top){
 (function restoreBoostMapReturnRule(){
   const PORTAL='https://pinalworkforce1-del.github.io/BOOST_Pathway-Portal/';
   showCompletion=function(){
+    // An embedded completion must be saved by its authenticated BOOST parent.
+    if(window.parent!==window){
+      const box=document.getElementById('completion');if(!box)return;
+      box.style.display='block';
+      box.innerHTML='<h3>Module 1 Complete</h3><p>Your careers are saved in this module. Use the button below to securely save your results to BOOST and unlock Validate.</p><button class="primary" id="boostReturnComplete" type="button">Save Results &amp; Return to BOOST</button>';
+      document.getElementById('boostReturnComplete').onclick=()=>window.parent.postMessage({type:'pinal-boost-module1-finish-request'},'*');
+      return;
+    }
+
     const params=new URLSearchParams(location.search),returnUrl=params.get('boost_return'),moduleId=params.get('boost_module'),nonce=params.get('boost_nonce');
     const box=document.getElementById('completion');if(!box)return;box.style.display='block';
     let safeReturn=null;
