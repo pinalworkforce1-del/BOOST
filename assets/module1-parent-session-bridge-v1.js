@@ -16,6 +16,7 @@ window.addEventListener('message',e=>{
  if(e.source!==window.parent||!PARENTS.has(e.origin)||!e.data||typeof e.data!=='object')return;
  if(e.data.type==='pinal-boost-module1-collect'){
    // Save Module 1 state to the authenticated outer BOOST shell; never send auth tokens.
+   try{window.PinalModule1CloudBridge?.captureDiscoverUI?.(false)}catch(_){}
    const outgoing=payload();
    e.source.postMessage({type:'pinal-boost-module1-current',requestId:String(e.data.requestId||''),state:outgoing},e.origin);
    return;
