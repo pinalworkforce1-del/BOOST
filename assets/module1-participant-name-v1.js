@@ -22,6 +22,16 @@ function persist(nameOverride){const name=clean(nameOverride||input.value);if(!n
 function useKnownName(name){input.value=name;persist(name);if(panel)panel.style.display='none'}
 function showNameEntry(){if(panel)panel.style.display='';const h=panel?.querySelector('h2'),sub=panel?.querySelector('.sub'),wrap=input.closest('.searchWrap');if(h)h.textContent='What name should appear on your BOOST reports?';if(sub)sub.textContent='Enter your full name once. BOOST will carry it forward to your Career Decision Report, Career Coach Summary, and future personalized outputs.';if(wrap)wrap.style.display='';input.addEventListener('change',()=>{if(persist()&&status){status.textContent=`✓ ${clean(input.value)} will appear on your BOOST reports and future outputs.`;status.style.display='block'}});input.addEventListener('blur',()=>persist())}
 function requireName(e){if(bestName()||persist())return;alert('Please enter your full name before continuing in Module 1.');e?.preventDefault();e?.stopPropagation();e?.stopImmediatePropagation?.();panel?.scrollIntoView({behavior:'smooth',block:'center'});input.focus()}
-const name=bestName();if(name)useKnownName(name);else showNameEntry();
+const name=bestName();
+if(name)useKnownName(name);
+else if(window.self!==window.top){
+  // The signed-in parent will send the registered name; do not show a duplicate prompt while loading.
+  if(panel)panel.style.display='none';
+  window.addEventListener('pinal-boost-account-name',event=>{
+    const supplied=clean(event.detail?.name);
+    if(supplied)useKnownName(supplied);else showNameEntry();
+  });
+  setTimeout(()=>{if(!bestName()&&panel?.style.display==='none')showNameEntry()},6000);
+}else showNameEntry();
 ['surfaceBtn','saveBtn'].forEach(id=>document.getElementById(id)?.addEventListener('click',requireName,true));
 })();
