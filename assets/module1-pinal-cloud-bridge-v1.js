@@ -110,6 +110,7 @@ function normalize(){
   journey.progress.module1='complete';journey.primaryCareerTitle=primary.title||journey.primaryCareerTitle||'';journey.h3Status=h3Status(primary);journey.updated_at=new Date().toISOString();write(JOURNEY_KEY,journey);return journey;
 }
 async function sync(){
+  if(window.self!==window.top)return {ok:false,reason:'embedded-parent-save-required'};
   const journey=normalize();if(!journey)return {ok:false,reason:'incomplete'};
   try{
     const cloud=window.PinalBOOSTCloud;if(!cloud?.getClient)return {ok:false,reason:'cloud-unavailable'};
@@ -132,7 +133,7 @@ function bind(){
     setTimeout(()=>captureDiscoverUI(true),40);
     setTimeout(sync,300);
   },true);
-  const shared=read(SHARED_KEY);if(shared?.module1?.completedAt)setTimeout(()=>{captureDiscoverUI(false);sync()},700);
+  const shared=read(SHARED_KEY);if(window.self===window.top&&shared?.module1?.completedAt)setTimeout(()=>{captureDiscoverUI(false);sync()},700);
 }
 window.PinalModule1CloudBridge={sync,normalize,hydrateSharedFromJourney,captureDiscoverUI};
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',bind,{once:true});else bind();
